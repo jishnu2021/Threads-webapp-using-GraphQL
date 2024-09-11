@@ -2,6 +2,7 @@ import express from "express"
 import {ApolloServer} from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4"
 import { prismaClient } from "./lib/db";
+import createApolloGraphqlServer from "./graphql";
 
 
 async function init() {
@@ -53,6 +54,8 @@ await gqlServer.start(),
 app.get("/",(req,res)=>{
     res.json({message:"Server is running"})
 })
+
+const gqlServer = await createApolloGraphqlServer()
 app.use('/graphql',expressMiddleware(gqlServer))
 
 app.listen(PORT,()=>{
